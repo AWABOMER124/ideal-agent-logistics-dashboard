@@ -1,23 +1,19 @@
-import type { Metadata } from "next";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-
-export const metadata: Metadata = {
-  title: "Square UI - Dashboard",
-  description: "A modern dashboard interface built with Next.js and shadcn/ui",
-};
+import { headers } from "next/headers";
+import { defaultLocale } from "@/i18n";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = headers().get("x-next-intl-locale") ?? defaultLocale;
+  const direction = locale === "ar" ? "rtl" : "ltr";
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} dir={direction} suppressHydrationWarning>
       <body className="antialiased">
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-          {children}
-        </ThemeProvider>
+        {children}
       </body>
     </html>
   );
