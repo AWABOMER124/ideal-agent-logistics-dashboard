@@ -1,4 +1,7 @@
+ codex/transform-square-ui-to-ideal-agent-logistics-3zycb9
+
  codex/transform-square-ui-to-ideal-agent-logistics-0h2re5
+ main
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, setRequestLocale} from 'next-intl/server';
 
@@ -18,6 +21,8 @@ return (
 <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}> <body> <NextIntlClientProvider messages={messages}>
 {children} </NextIntlClientProvider> </body> </html>
 );
+ codex/transform-square-ui-to-ideal-agent-logistics-3zycb9
+
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
@@ -51,5 +56,6 @@ export default async function LocaleLayout({
       <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
     </ThemeProvider>
   );
+  main
   main
 }

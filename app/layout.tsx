@@ -1,3 +1,7 @@
+ codex/transform-square-ui-to-ideal-agent-logistics-3zycb9
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return children;
+
  codex/transform-square-ui-to-ideal-agent-logistics-0h2re5
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return children;
@@ -21,5 +25,6 @@ export default function RootLayout({
       </body>
     </html>
   );
+ main
  main
 }
