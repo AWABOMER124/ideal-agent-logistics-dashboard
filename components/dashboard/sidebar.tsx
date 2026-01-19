@@ -1,20 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import {
   Search,
-  Bell,
-  Sparkles,
   LayoutDashboard,
-  Calendar,
-  Library,
-  Users,
-  Link as LinkIcon,
-  Folder,
-  ChevronDown,
+  ClipboardList,
+  Truck,
   MessageSquare,
+  FileBarChart,
+  Store,
+  Plug,
   Settings,
   HelpCircle,
+  ChevronDown,
   Check,
   Plus,
 } from "lucide-react";
@@ -25,7 +22,6 @@ import {
   SidebarHeader,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -40,20 +36,45 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 import { Kbd } from "@/components/ui/kbd";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 import { UpgradeCard } from "./upgrade-card";
+import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
+
+const localeSegmentRegex = /^\/(en|ar)(?=\/|$)/;
 
 export function DashboardSidebar({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
-  const [favoritesOpen, setFavoritesOpen] = useState(true);
+  const t = useTranslations();
+  const locale = useLocale();
+  const pathname = usePathname();
+
+  const withLocale = (path: string) => `/${locale}${path}`;
+
+  const navItems = [
+    {
+      key: "overview",
+      href: withLocale("/overview"),
+      icon: LayoutDashboard,
+    },
+    { key: "orders", href: withLocale("/orders"), icon: ClipboardList },
+    { key: "shipments", href: withLocale("/shipments"), icon: Truck },
+    { key: "messages", href: withLocale("/messages"), icon: MessageSquare },
+    { key: "reports", href: withLocale("/reports"), icon: FileBarChart },
+    { key: "merchants", href: withLocale("/merchants"), icon: Store },
+    { key: "integrations", href: withLocale("/integrations"), icon: Plug },
+    { key: "settings", href: withLocale("/settings"), icon: Settings },
+  ];
+
+  const footerItems = [
+    { key: "help", href: withLocale("/help-center"), icon: HelpCircle },
+    { key: "feedback", href: withLocale("/feedback"), icon: MessageSquare },
+  ];
+
+  const normalizedPathname = pathname.replace(localeSegmentRegex, "");
 
   return (
     <Sidebar className="lg:border-r-0!" collapsible="offcanvas" {...props}>
@@ -68,9 +89,9 @@ export function DashboardSidebar({
                 >
                   <div className="flex items-center gap-2">
                     <div className="size-6 bg-linear-to-br from-purple-500 to-pink-600 rounded-sm shadow flex items-center justify-center text-white text-xs font-semibold">
-                      SU
+                      IAL
                     </div>
-                    <span className="font-semibold">Square UI</span>
+                    <span className="font-semibold">{t("app.name")}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Image
@@ -88,26 +109,26 @@ export function DashboardSidebar({
                 <DropdownMenuItem>
                   <div className="flex items-center gap-3 w-full">
                     <div className="size-6 bg-linear-to-br from-purple-500 to-pink-600 rounded-sm shadow flex items-center justify-center text-white text-xs font-semibold">
-                      SU
+                      IAL
                     </div>
-                    <span className="font-semibold">Square UI</span>
+                    <span className="font-semibold">{t("app.name")}</span>
                     <Check className="size-4 ml-auto" />
                   </div>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <div className="flex items-center gap-3 w-full">
                     <div className="size-6 bg-linear-to-br from-blue-500 to-cyan-600 rounded-sm shadow flex items-center justify-center text-white text-xs font-semibold">
-                      CI
+                      OPS
                     </div>
-                    <span>Circle</span>
+                    <span>Operations</span>
                   </div>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <div className="flex items-center gap-3 w-full">
                     <div className="size-6 bg-linear-to-br from-orange-500 to-red-600 rounded-sm shadow flex items-center justify-center text-white text-xs font-semibold">
-                      LN
+                      MER
                     </div>
-                    <span>lndev-ui</span>
+                    <span>Merchants</span>
                   </div>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -142,128 +163,56 @@ export function DashboardSidebar({
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton className="h-7 text-sm text-muted-foreground">
-                  <Bell className="size-4" />
-                  <span>Notifications</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton className="h-7 text-sm text-muted-foreground">
-                  <Sparkles className="size-4" />
-                  <span>AI Assistant</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isItemActive =
+                  normalizedPathname === item.href.replace(localeSegmentRegex, "");
+
+                return (
+                  <SidebarMenuItem key={item.key}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={pathname === item.href || isItemActive}
+                      className="h-7 text-sm text-muted-foreground"
+                    >
+                      <Link href={item.href}>
+                        <Icon className="size-4" />
+                        <span>{t(`nav.${item.key}`)}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
         <SidebarSeparator />
-
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  isActive
-                  className="h-7 text-sm text-muted-foreground"
-                >
-                  <LayoutDashboard className="size-4" />
-                  <span>Dashboard</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton className="h-7 text-sm text-muted-foreground">
-                  <Calendar className="size-4" />
-                  <span>Schedule</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton className="h-7 text-sm text-muted-foreground">
-                  <Library className="size-4" />
-                  <span>Resources</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton className="h-7 text-sm text-muted-foreground">
-                  <Users className="size-4" />
-                  <span>Clients</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton className="h-7 text-sm text-muted-foreground">
-                  <LinkIcon className="size-4" />
-                  <span>Integrations</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarSeparator />
-
-        <SidebarGroup>
-          <Collapsible open={favoritesOpen} onOpenChange={setFavoritesOpen}>
-            <CollapsibleTrigger asChild>
-              <SidebarGroupLabel className="h-4 pb-4 pt-2 text-xs text-muted-foreground hover:text-foreground hover:bg-transparent cursor-pointer">
-                <span>Favorites</span>
-                <ChevronDown
-                  className={cn(
-                    "size-3 transition-transform ml-auto",
-                    favoritesOpen && "rotate-180"
-                  )}
-                />
-              </SidebarGroupLabel>
-            </CollapsibleTrigger>
-            <CollapsibleContent>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton className="h-7 text-sm text-muted-foreground">
-                      <Folder className="size-4" />
-                      <span>Contracts</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton className="h-7 text-sm text-muted-foreground">
-                      <Folder className="size-4" />
-                      <span>Content</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton className="h-7 text-sm text-muted-foreground">
-                      <Folder className="size-4" />
-                      <span>Summaries</span>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </CollapsibleContent>
-          </Collapsible>
-        </SidebarGroup>
       </SidebarContent>
 
       <SidebarFooter className="p-4">
         <div className="space-y-1 mb-4">
           <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton className="h-7 text-sm text-muted-foreground">
-                <MessageSquare className="size-4" />
-                <span>Feedback</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton className="h-7 text-sm text-muted-foreground">
-                <Settings className="size-4" />
-                <span>Settings</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton className="h-7 text-sm text-muted-foreground">
-                <HelpCircle className="size-4" />
-                <span>Help Center</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+            {footerItems.map((item) => {
+              const Icon = item.icon;
+              const isItemActive =
+                normalizedPathname === item.href.replace(localeSegmentRegex, "");
+
+              return (
+                <SidebarMenuItem key={item.key}>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={pathname === item.href || isItemActive}
+                    className="h-7 text-sm text-muted-foreground"
+                  >
+                    <Link href={item.href}>
+                      <Icon className="size-4" />
+                      <span>{t(`nav.${item.key}`)}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              );
+            })}
           </SidebarMenu>
         </div>
 

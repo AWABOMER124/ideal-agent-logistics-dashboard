@@ -1,0 +1,24 @@
+{
+  "app": {
+    "name": "Ideal Agent Logistics"
+  },
+  "nav": {
+    "overview": "نظرة عامة",
+    "orders": "الطلبات",
+    "shipments": "الشحنات",
+    "messages": "الرسائل",
+    "reports": "التقارير",
+    "merchants": "التجار",
+    "integrations": "التكاملات",
+    "settings": "الإعدادات",
+    "help": "مركز المساعدة",
+    "feedback": "الملاحظات"
+  },
+  "header": {
+    "welcome": "مرحبًا بعودتك",
+    "switchTo": "English"
+  },
+  "pages": {
+    "placeholder": "هذه صفحة مؤقتة لقسم {section}."
+  }
+}
