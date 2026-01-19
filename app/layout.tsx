@@ -1,3 +1,7 @@
+ codex/transform-square-ui-to-ideal-agent-logistics-0h2re5
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return children;
+
 import "./globals.css";
 import { headers } from "next/headers";
 import { defaultLocale } from "@/i18n";
@@ -17,4 +21,5 @@ export default function RootLayout({
       </body>
     </html>
   );
+ main
 }
