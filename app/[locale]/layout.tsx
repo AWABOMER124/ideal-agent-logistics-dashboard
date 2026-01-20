@@ -1,6 +1,7 @@
 import type { LayoutProps, Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
+import { notFound } from "next/navigation";
 import { ThemeProvider } from "@/components/theme-provider";
 import { locales } from "@/i18n";
 
@@ -20,6 +21,13 @@ export function generateMetadata(): Metadata {
 export default async function LocaleLayout({
   children,
   params,
+ codex/fix-json-parse-error-in-package.json-lrqjke
+}: LayoutProps<"/[locale]">) {
+  const { locale } = params;
+  if (!locales.includes(locale as (typeof locales)[number])) {
+    notFound();
+  }
+
  codex/fix-json-parse-error-in-package.json-l24h3l
 }: LayoutProps<"/[locale]">) {
   const { locale } = params;
@@ -30,6 +38,7 @@ export default async function LocaleLayout({
 }>) {
   const { locale } = await params;
  main
+
   setRequestLocale(locale);
   const messages = await getMessages();
 
