@@ -1,14 +1,14 @@
 import { redirect } from "next/navigation";
 
-export default function LocaleRootPage({
+type LocaleParams = {
+  locale: "en" | "ar";
+};
+
+export default async function LocaleRootPage({
   params,
 }: {
-  params: Promise<{ locale: "en" | "ar" }>;
+  params: Promise<LocaleParams>;
 }) {
- codex/fix-build-issues-in-vercel-v7jdp2
   const { locale } = await params;
   redirect(`/${locale}/overview`);
-
-  redirect(`/${params.locale}/overview`);
- main
 }

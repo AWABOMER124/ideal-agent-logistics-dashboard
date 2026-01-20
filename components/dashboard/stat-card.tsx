@@ -1,7 +1,6 @@
 "use client";
 
 import { Users, Clipboard, Wallet, FileText } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const iconMap = {
   users: Users,
@@ -33,4 +32,3 @@ export function StatCard({ title, value, icon }: StatCardProps) {
     </div>
   );
 }
-
