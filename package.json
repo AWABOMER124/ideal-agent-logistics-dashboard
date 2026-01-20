@@ -2,6 +2,9 @@
   "name": "dashboard-1",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=18 <=20"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -23,11 +26,15 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.553.0",
+ codex/-next-gpia85
+    "next": "^15.3.0",
+
  vercel/react-server-components-cve-vu-pb53wq
     "next": "15.2.8",
 
     "next": "^15.3.0",
 main
+ main
     "next-intl": "^3.19.2",
     "next-themes": "^0.4.4",
     "react": "19.2.3",
@@ -39,6 +46,7 @@ main
     "zustand": "^5.0.2"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^5.13.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
