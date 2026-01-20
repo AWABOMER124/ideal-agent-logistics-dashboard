@@ -4,6 +4,8 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { ThemeProvider } from "@/components/theme-provider";
 import { locales } from "@/i18n";
 
+type Locale = (typeof locales)[number];
+
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
@@ -18,8 +20,16 @@ export function generateMetadata(): Metadata {
 export default async function LocaleLayout({
   children,
   params,
+ codex/fix-json-parse-error-in-package.json-l24h3l
 }: LayoutProps<"/[locale]">) {
   const { locale } = params;
+
+}: Readonly<{
+  children: React.ReactNode;
+  params: Promise<{ locale: Locale }>;
+}>) {
+  const { locale } = await params;
+ main
   setRequestLocale(locale);
   const messages = await getMessages();
 
