@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+import type { LayoutProps, Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
+import { notFound } from "next/navigation";
 import { ThemeProvider } from "@/components/theme-provider";
 import { locales } from "@/i18n";
 
@@ -18,11 +19,11 @@ export function generateMetadata(): Metadata {
 export default async function LocaleLayout({
   children,
   params,
-}: Readonly<{
-  children: React.ReactNode;
-  params: Promise<{ locale: "en" | "ar" }>;
-}>) {
-  const { locale } = await params;
+}: LayoutProps<"/[locale]">) {
+  const { locale } = params;
+  if (!locales.includes(locale as (typeof locales)[number])) {
+    notFound();
+  }
   setRequestLocale(locale);
   const messages = await getMessages();
 
